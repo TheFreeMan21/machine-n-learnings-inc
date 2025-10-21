@@ -2,12 +2,12 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 df=pd.read_csv('src\claims_train.csv')
-df['Exposure']=df['Exposure']*365 #easier think about it in days then years
-df['Exposure'][df['Exposure']>365]=365 #either drop or cap them
+# df['Exposure']=df['Exposure']*365 #easier think about it in days then years
+# df['Exposure'][df['Exposure']>365]=365 #either drop or cap them
 df['BonusMalus']=df['BonusMalus']/100
-mask = (df['VehAge']<=25) | (df['BonusMalus']<0.95**(df['DrivAge']-18))
-df = df[df[(df['VehAge']<=25) | (df['BonusMalus']>(0.95**(df['DrivAge']-18)))] == False]
-print(df.shape)
+# mask = (df['VehAge']<=25) | (df['BonusMalus']<0.95**(df['DrivAge']-18))
+# df = df[df[(df['VehAge']<=25) | (df['BonusMalus']>(0.95**(df['DrivAge']-18)))] == False]
+# print(df.shape)
 # df.drop(labels=[df[mask]],inplace=True)#The data is from 2004-2005 there is low chance of having a car which is from before 1940
 #for x in ['IDpol','ClaimNb','Exposure','VehPower','VehAge','DrivAge','BonusMalus',]:
 #    print(df[x].describe())
@@ -29,10 +29,10 @@ print(df.shape)
 #                log(1 + (claimNB**1.3/(Exposure+beta)))  beta if we find the data too noise
 alpha=1 # If we want to penaltize the claimnb more
 beta=0 # If we want to finetune the exposure part 
-# df['Risk'] = (np.log(1+(df['ClaimNb']**alpha)/(df['Exposure']+beta))/(1+(np.log(1+(df['ClaimNb']**alpha)/(df['Exposure']+beta)))))
-# plt.hist(df['Risk'],50)
+df['Risk'] = (np.log(1+(df['ClaimNb']**alpha)/(df['Exposure']+beta))/(1+(np.log(1+(df['ClaimNb']**alpha)/(df['Exposure']+beta)))))
+plt.hist(df['Risk'],50)
+plt.yscale('log')
+plt.show()
+# plt.hist(df['ClaimNb'],10)
 # plt.yscale('log')
 # plt.show()
-#plt.hist(df['ClaimNb'],10)
-#plt.yscale('log')
-#plt.show()
