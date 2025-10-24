@@ -8,6 +8,7 @@ df.drop('Area', axis=1, inplace=True)
 
 df['BonusMalus']=df['BonusMalus']/100
 
+df= df[df['Exposure']<=1]
 df = df[(df['VehAge']<=25)]
 
 #Let's fix the BonusMalus, since only those could have 0.5 who had 13 years of accident free driving. that means until the age of 31
