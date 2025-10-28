@@ -6,18 +6,25 @@ df=pd.read_csv('src\claims_train.csv')
 
 df.drop('Area', axis=1, inplace=True)
 
-df['BonusMalus']=df['BonusMalus']/100
+df['BonusMalus'] = df['BonusMalus'] / 100
 
-df= df[df['Exposure']<=1]
-df = df[(df['VehAge']<=25)]
+# Remove drivers signed up to insurance for over a year
+year_minus_mask = df['Exposure'] < 1
+df = df[year_minus_mask]
+
+# Remove vehicles whose age is 25 or older (vintage cars)
+non_vintage_mask = df['VehAge'] <= 25
+df = df[non_vintage_mask]
 
 #Let's fix the BonusMalus, since only those could have 0.5 who had 13 years of accident free driving. that means until the age of 31
 #nobody can have malus 0.5 however there is no limit for the top value (The overall top limit is 3.50, bottom limit 0.5)
 #BonusMalus= PreviousMalus * 0.95 if no accident else 1.25
 #We replaced the incorrect values with the average value of the age
-
-age_avg = df[df['BonusMalus']>=0.95**(df['DrivAge']-18)].groupby('DrivAge')['BonusMalus'].mean()
-df.loc[df['BonusMalus']<0.95**(df['DrivAge']-18), 'BonusMalus'] = df.loc[df['BonusMalus']<0.95**(df['DrivAge']-18), 'DrivAge'].map(age_avg)
+min_malus = 0.95 ** (df['DrivAge']-18)
+bad_mal_mask = df['BonusMalus'] >= min_malus
+age_avg = df[bad_mal_mask].groupby('DrivAge')['BonusMalus'].mean()
+impossible_malus_mask = df['BonusMalus']<0.95**(df['DrivAge']-18)
+df.loc[impossible_malus_mask, 'BonusMalus'] = df.loc[impossible_malus_mask, 'DrivAge'].map(age_avg)
 
 # df.drop(labels=[df[mask]],inplace=True)#The data is from 2004-2005 there is low chance of having a car which is from before 1940
 #for x in ['IDpol','ClaimNb','Exposure','VehPower','VehAge','DrivAge','BonusMalus',]:
