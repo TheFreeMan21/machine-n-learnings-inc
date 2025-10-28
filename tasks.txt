@@ -1,5 +1,8 @@
 Greg
 - Normalize the density
+- Severty
 Bogdan
-- 
+- PCA and dimension reduction and clustering
 MARS
+- decision tree
+- data representation
