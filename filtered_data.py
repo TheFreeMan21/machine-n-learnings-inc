@@ -16,6 +16,8 @@ df = df[year_minus_mask]
 non_vintage_mask = df['VehAge'] <= 25
 df = df[non_vintage_mask]
 
+df['Density'] =df['Density']/max(df['Density'])
+
 #Let's fix the BonusMalus, since only those could have 0.5 who had 13 years of accident free driving. that means until the age of 31
 #nobody can have malus 0.5 however there is no limit for the top value (The overall top limit is 3.50, bottom limit 0.5)
 #BonusMalus= PreviousMalus * 0.95 if no accident else 1.25
