@@ -1,6 +1,8 @@
 Greg
-- Normalize the density
-- Severty
+- Paris density filter
+- risk formula modification
+- report on the risk formula
+- data representation
 Bogdan
 - PCA and dimension reduction and clustering
 MARS
