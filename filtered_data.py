@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+from sklearn.preprocessing import StandardScaler
 
 df=pd.read_csv('src\claims_train.csv')
 
@@ -15,8 +16,7 @@ df = df[year_minus_mask]
 # Remove vehicles whose age is 25 or older (vintage cars)
 non_vintage_mask = df['VehAge'] <= 25
 df = df[non_vintage_mask]
-
-df['Density'] =df['Density']/max(df['Density'])
+df['Density_scaled'] = StandardScaler().fit_transform(df[['Density']])
 
 #Let's fix the BonusMalus, since only those could have 0.5 who had 13 years of accident free driving. that means until the age of 31
 #nobody can have malus 0.5 however there is no limit for the top value (The overall top limit is 3.50, bottom limit 0.5)
