@@ -1,10 +1,12 @@
 Greg
-- Paris density filter
-- risk formula modification
 - report on the risk formula
 - data representation
+- plot vehBrand-vehPower
 Bogdan
 - PCA and dimension reduction and clustering
+- 2d 3d scatter plot with the risk
+- loading bar
+- Report on PCA
 MARS
-- decision tree
+- decision tree and sklearn
 - data representation
