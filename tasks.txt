@@ -1,0 +1,18 @@
+Greg
+- finish neural network
+- methods of evaluation research
+- upload pictures
+- look at the decision tree
+- exploantion for the backpropagation
+
+Bogdan
+- finish 3rd methods
+- readme.md
+- risk distrubution in the cluster (PCA and clustering)
+
+MARS
+- decision tree visualization
+- report
+- decision tree reference
+- update risk formula
+
