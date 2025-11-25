@@ -54,3 +54,5 @@ def filtering(df):
     # plt.hist(df['ClaimNb'],10)
     # plt.yscale('log')
     # plt.show()
+
+    return df
