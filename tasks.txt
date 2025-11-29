@@ -1,8 +1,16 @@
 Greg
-- finish neural network
-- methods of evaluation research
-- upload pictures
-- look at the decision tree
+- methods of evaluation research (MSE, unique [we would compare the predicted value with the true value and bin it, then we could see how close the predicted values are
+                                               also good for visualization] )
+- upload pictures  
+        (random example from previous year: 
+        \begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth]{images/featureB_formula.png}
+    \caption{Visualization of the computation of the adapted feature B (border irregularity).}
+    \label{fig:featureBFormula}
+\end{figure}
+)
+
 - exploantion for the backpropagation
 
 Bogdan

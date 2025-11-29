@@ -8,13 +8,12 @@
 import numpy as np
 import pandas as pd
 
-def initialize_weights_normal(mean, std, shape, random_state):  
-    np.random.seed(random_state)  
+def initialize_weights_normal(mean, std, shape):  
+    #np.random.seed(random_state)  
     return np.random.normal(mean, std, shape)
 
 def relu(x): 
     return np.maximum(0, x)
-# soft relu
 
 def relu_derivative(x): 
     return np.where(x > 0, 1.0, 0.0)
@@ -24,30 +23,35 @@ def mse(y_true, y_pred):
 
 class NeuralNetworkScratch:
 
-    def __init__(self, input_dim, hidden1_dim=64, hidden2_dim=32, output_dim=1, learning_rate=0.001, epochs=100, number_of_batches=5, random_state=42, patience=10):
+    def __init__(self, input_dim, hidden1_dim=64, hidden2_dim=32, output_dim=1, learning_rate=0.001, epochs=100, number_of_batches=100, random_state=42, patience=20, learning_shrink=False):
         self.input_dim = input_dim
         self.hidden1_dim = hidden1_dim
         self.hidden2_dim = hidden2_dim
         self.output_dim = output_dim
         self.learning_rate = learning_rate
+        self.min_learning_rate = 1e-5
+        self.window_size = 3
+        self.factor = 0.9
+        self.min_delta = 1e-4
         self.epochs = epochs
         self.number_of_batches = number_of_batches
         self.random_state = random_state
         self.params = {
         # 1st hidden layer weights and biases
-        "wh1": initialize_weights_normal(0, np.sqrt(2/self.input_dim), (self.input_dim, self.hidden1_dim), self.random_state),  # input nodes, hidden nodes
+        "wh1": initialize_weights_normal(0, np.sqrt(2/self.input_dim), (self.input_dim, self.hidden1_dim)),  # input nodes, hidden nodes
         "bh1": np.zeros((1, self.hidden1_dim)),  # bias term for hidden layer
         # 2nd hidden layer weights and biases
-        "wh2": initialize_weights_normal(0, np.sqrt(2/self.hidden1_dim), (self.hidden1_dim, self.hidden2_dim), self.random_state),  # hidden nodes, hidden nodes
+        "wh2": initialize_weights_normal(0, np.sqrt(2/self.hidden1_dim), (self.hidden1_dim, self.hidden2_dim)),  # hidden nodes, hidden nodes
         "bh2": np.zeros((1, self.hidden2_dim)),  # bias term for hidden layer
         # output layer weights and biases
-        "wo": initialize_weights_normal(0, np.sqrt(2/self.hidden2_dim), (self.hidden2_dim, self.output_dim), self.random_state),  # hidden nodes, output node
+        "wo": initialize_weights_normal(0, np.sqrt(2/self.hidden2_dim), (self.hidden2_dim, self.output_dim)),  # hidden nodes, output node
         "bo": np.zeros((1, self.output_dim))   # bias for output layer
         }
         self.validation_loss_history = []
         self.training_loss_history = []
         self.best_validation_loss = float('inf')
         self.patience = patience
+        self.learning_shrink = learning_shrink
 
 
 
@@ -120,10 +124,10 @@ class NeuralNetworkScratch:
         X_validation = X_shuffled[int(X.shape[0] * 0.8):]
         y_validation = y_shuffled[int(X.shape[0] * 0.8):]
         no_improve_count = 0
+        lr_counter = 0
         
         # Training loop
         for epoch in range(self.epochs):
-            np.random.seed(self.random_state) #!!!
             permutation_epoch = np.random.permutation(X_shuffled_training.shape[0])
             X_epoch_shuffled = X_shuffled_training[permutation_epoch]
             y_epoch_shuffled = y_shuffled_training[permutation_epoch]
@@ -155,8 +159,19 @@ class NeuralNetworkScratch:
             print(f'Validation Loss: {val_loss}')
             self.validation_loss_history.append([epoch,val_loss])
 
+            # Learning rate scheduling
+            if self.learning_shrink and len(self.validation_loss_history) >= self.window_size:
+                improvement = self.validation_loss_history[-self.window_size][1] - self.validation_loss_history[-1][1]
+                if improvement < self.min_delta:
+                    new_lr = max(self.learning_rate * self.factor, self.min_learning_rate)
+                    lr_counter += 1
+                    if new_lr < self.learning_rate and lr_counter == self.window_size:
+                        print(f"Reducing learning rate from {self.learning_rate} to {new_lr}")
+                        self.learning_rate = new_lr
+                        lr_counter = 0
+
             # Early stopping check (training)
-            if val_loss < self.best_validation_loss - 1e-4:
+            if val_loss < self.best_validation_loss - 1e-5:
                 self.best_validation_loss = val_loss
                 best_params = self.params.copy()
                 no_improve_count = 0
@@ -246,11 +261,12 @@ nn = NeuralNetworkScratch(
     hidden1_dim=128,
     hidden2_dim=64,
     output_dim=1,
-    learning_rate=0.001,
-    epochs=50,
-    number_of_batches=100,
-    random_state=42,
-    patience=5
+    learning_rate=0.1,
+    epochs=400,
+    number_of_batches=4000,
+    random_state=0,
+    patience=5,
+    learning_shrink=True
 )
 
 nn.train(X_scaled, Y)

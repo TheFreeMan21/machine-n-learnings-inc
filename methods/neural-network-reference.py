@@ -85,7 +85,7 @@ mlp = MLPRegressor(
     solver='adam',
     learning_rate_init=0.001,
     max_iter=50,          # number of epochs
-    batch_size=4000,       # mini-batch size
+    batch_size=100,       # mini-batch size
     random_state=42,
     verbose=True          # prints loss per iteration
 )
