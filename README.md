@@ -1,3 +1,4 @@
+# STILL UNDER EDITING!!!!
 # Project Structure Overview
 
 This repository contains a modular machine learning project with a focus on dimensionality reduction, clustering, and model implementation from scratch and reference. Below is a breakdown of the directory structure and the purpose of each component.
@@ -59,5 +60,3 @@ __MACOSX                    # System-generated folder (can be ignored)
 - Proposal and documentation files are included for context and reproducibility.
 
 ---
-
-Feel free to extend this README with setup instructions, environment requirements, or usage examples.
