@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.preprocessing import StandardScaler
 
-def filtering(df, alpha=1, gamma=0.1):
+def filtering(df, alpha=2, gamma=0.1):
 
     # add risk score column
     df["Risk"] = np.log(1 + (gamma + (df["ClaimNb"]**alpha) / df["Exposure"])) / (1 + np.log(1 + (gamma + (df["ClaimNb"]**alpha) / df["Exposure"])))

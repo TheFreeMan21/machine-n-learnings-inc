@@ -1,4 +1,8 @@
 import os
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from util.filter_data import filtering
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
@@ -6,7 +10,6 @@ from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import mean_squared_error, r2_score
-from filter_data import filtering
 
 df = pd.read_csv("./src/claims_train.csv")
 
