@@ -3,7 +3,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.preprocessing import StandardScaler
 
-def filtering(df):
+def filtering(df, alpha=1, gamma=0.1):
+
+    # add risk score column
+    df["Risk"] = np.log(1 + (gamma + (df["ClaimNb"]**alpha) / df["Exposure"])) / (1 + np.log(1 + (gamma + (df["ClaimNb"]**alpha) / df["Exposure"])))
+    
 
     df.drop('Area', axis=1, inplace=True)
 
@@ -43,16 +47,32 @@ def filtering(df):
     #'IDpol' unique we dont have to drop duplicates
     #'DrivAge' we should drop the > (80 or 90) entries
 
-    #possible_risks: claimNB/Exposure -- simple misses out important factors
+    # possible_risks: claimNB/Exposure -- simple misses out important factors
     #                log(1 + (claimNB**1.3/(Exposure+beta)))  beta if we find the data too noise
-    alpha=10 # If we want to penaltize the claimnb more
-    beta=0 # If we want to finetune the exposure part 
-    df['Risk'] = (np.log(1+(df['ClaimNb']**alpha)/(df['Exposure']+beta))/(1+(np.log(1+(df['ClaimNb']**alpha)/(df['Exposure']+beta)))))
-    plt.hist(df['Risk'],50)
-    plt.yscale('log')
-    plt.show()
+    # alpha=10 # If we want to penaltize the claimnb more
+    # beta=0 # If we want to finetune the exposure part 
+    # df['Risk'] = (np.log(1+(df['ClaimNb']**alpha)/(df['Exposure']+beta))/(1+(np.log(1+(df['ClaimNb']**alpha)/(df['Exposure']+beta)))))
+    # plt.hist(df['Risk'],50)
+    # plt.yscale('log')
+    # plt.show()
     # plt.hist(df['ClaimNb'],10)
     # plt.yscale('log')
     # plt.show()
+
+    regions_remove_outliers = ['R25','R82','R54','R94','R93','R91','R52',
+                            'R72','R31','R73','R23','R22','R41','R42',
+                            'R83','R21','R74','R43', 'R11']
+
+    def remove_outliers_selective(group):
+        # Only remove outliers for regions in the list
+        if group.name in regions_remove_outliers:
+            q1, q3 = group['Density'].quantile([0.25, 0.75])
+            iqr = q3 - q1
+            lower, upper = q1 - 1.5 * iqr, q3 + 1.5 * iqr
+            return group[(group['Density'] >= lower) & (group['Density'] <= upper)]
+        else:
+            return group
+
+    df = df.groupby('Region', group_keys=False).apply(remove_outliers_selective)
 
     return df
