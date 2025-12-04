@@ -8,9 +8,7 @@ import numpy as np
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
-from sklearn.metrics import silhouette_score
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
 import seaborn as sns
 
 df=filtering('./src/claims_train.csv')
@@ -29,8 +27,8 @@ df_pca= pd.DataFrame(X_pca)
 
 df_pca.to_csv("./src/pca_data.csv", index=False)
 
-print("Original shape:", X_scaled.shape)
-print("Reduced shape:", X_pca.shape)
+#print("Original shape:", X_scaled.shape)
+#print("Reduced shape:", X_pca.shape)
 
 plt.plot(np.cumsum(pca.explained_variance_ratio_))
 plt.xlabel("Number of Components")
@@ -107,11 +105,34 @@ for i, cluster in enumerate(clusters):
     plt.title(f"Cluster {cluster} Risk Distribution")
     plt.xlabel("Risk_formula")
     plt.ylabel("Count (log scale)")
-    plt.yscale("log")
+    #plt.yscale("log")
     plt.grid(True)
 
 plt.tight_layout()
 plt.savefig("./plots/risk_distribution.png", dpi=300, bbox_inches='tight')
 plt.close()
 
-print(df["Cluster"].value_counts())
+plt.figure(figsize=(12,7))
+
+clusters = sorted(df["Cluster"].unique())
+
+for c in clusters:
+    sns.histplot(
+        df.loc[df["Cluster"] == c, "Risk"],
+        bins=40,
+        kde=False,
+        stat="count",
+        label=f"Cluster {c}",
+        element="step",
+        fill=False,
+        alpha=0.7
+    )
+
+#plt.yscale("log")
+plt.xlabel("Risk")
+plt.ylabel("Count (log scale)")
+plt.title("Risk Distribution per Cluster (Histogram + Log Scale)")
+plt.legend()
+plt.tight_layout()
+plt.savefig("./plots/risk_distribution_line.png", dpi=300, bbox_inches='tight')
+plt.close()
