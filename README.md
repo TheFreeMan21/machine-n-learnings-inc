@@ -60,3 +60,9 @@ __MACOSX                    # System-generated folder (can be ignored)
 - Proposal and documentation files are included for context and reproducibility.
 
 ---
+
+## Instructions
+
+If you desire to see the whole methods, you go in the methods folder and look at the full code of each method. Otherwise if you only wish to see the results of each method, you can open the method_collection.ipynb notebook.
+
+---

@@ -26,10 +26,10 @@ X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
 
 param_grid = {
-    "n_estimators": [50, 100, 200],
-    "max_depth": [None, 10, 20],
-    "min_samples_split": [2, 5, 10],
-    "min_samples_leaf": [1, 2, 4]
+    "n_estimators": [100 ,200, 300, 400],
+    "max_depth": [None, 10, 20, 30],
+    "min_samples_split": [5, 10, 15, 20],
+    "min_samples_leaf": [1, 2, 4, 6, 8]
 }
 
 rf = RandomForestRegressor(random_state=42)
