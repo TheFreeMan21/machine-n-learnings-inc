@@ -98,29 +98,3 @@ class DecisionTreeScratch:
         if prune_error <= keep_error:
             node.clear()
             node["value"] = leaf_value
-
-    # def print_tree(self, node=None, depth=0):
-    #     if node is None:
-    #         node = self.tree
-
-    #     indent = "  " * depth
-
-    #     # Leaf node
-    #     if "value" in node:
-    #         print(f"{indent}Leaf: value={node['value']:.4f}")
-    #         return
-
-    #     # Internal node
-    #     print(f"{indent}Feature[{node['feature']}] <= {node['threshold']}")
-
-    #     # Left subtree
-    #     print(f"{indent}├── Left:")
-    #     self.print_tree(node["left"], depth + 1)
-
-    #     # Right subtree
-    #     print(f"{indent}└── Right:")
-    #     self.print_tree(node["right"], depth + 1)
-
-
-
-# best_tree.print_tree()
