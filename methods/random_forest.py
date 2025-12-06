@@ -11,9 +11,7 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import mean_squared_error, r2_score
 
-df = pd.read_csv("./src/claims_train.csv")
-
-df = filtering(df)
+df = filtering("./src/claims_train.csv")
 
 X = df.drop(columns=["ClaimNb", "Exposure", "Risk"])
 y = df["Risk"]
