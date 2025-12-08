@@ -1,6 +1,8 @@
 Greg
-- methods of evaluation research (MSE, unique [we would compare the predicted value with the true value and bin it, then we could see how close the predicted values are
-                                               also good for visualization] )
+- plots for overleaf
+- nn distribution exploantion
+- write about nn 
+- 
 - upload pictures  
         (random example from previous year: 
         \begin{figure}[h]
@@ -14,13 +16,13 @@ Greg
 - exploantion for the backpropagation
 
 Bogdan
-- finish 3rd methods
-- readme.md
-- risk distrubution in the cluster (PCA and clustering)
+- random forest report
+- rf mse plot
 
 MARS
-- decision tree visualization
-- report
-- decision tree reference
-- update risk formula
+- decision tree report
+- decision tree mse plot
+- why mse
+- report the results
+
 
