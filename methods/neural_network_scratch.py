@@ -149,7 +149,6 @@ class NeuralNetworkScratch:
 
                 # Update parameters
                 self.update_parameters(grads)
-            print(grads['dWh2'])
             # Calculate and print loss for training and validation sets
             train_output, _ = self.forward_pass(X_shuffled_training)
             train_loss = self.mse(y_shuffled_training, train_output)
