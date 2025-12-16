@@ -3,15 +3,15 @@ import numpy as np
 
 def filtering(df_original_path, alpha=2, gamma=0.1, train=True):
 
-    df_original=pd.read_csv(df_original_path)
+    df=pd.read_csv(df_original_path)
     #Since the density is the continiuous variable, we can drop the Area column
-    df_original.drop('Area', axis=1, inplace=True)
+    df.drop('Area', axis=1, inplace=True)
     #Rescale BonusMalus, since in the literature it is said to be between 0.5 and 3.5
-    df_original['BonusMalus']=df_original['BonusMalus']/100
+    df['BonusMalus']=df['BonusMalus']/100
     
     if train:
         #Filtering the Exposure since it goes out of bounds (0-1)
-        df = df_original[df_original['Exposure']<=1]
+        df = df[df['Exposure']<=1]
         #Filterig VehAge to be less than 25, since on the roads these are the most common vehicles
         df = df[(df['VehAge']<=25)]
 

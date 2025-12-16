@@ -122,13 +122,14 @@ class NeuralNetworkScratch:
         y_shuffled = y[permutation]
         X_shuffled_training = X_shuffled[:int(X.shape[0] * 0.8)]
         y_shuffled_training = y_shuffled[:int(X.shape[0] * 0.8)]
-        X_validation = X_shuffled[int(X.shape[0] * 0.8):]
         y_validation = y_shuffled[int(X.shape[0] * 0.8):]
+        X_validation = X_shuffled[int(X.shape[0] * 0.8):]
         no_improve_count = 0
         lr_counter = 0
         
         # Training loop
         for epoch in range(self.epochs):
+            np.random.seed()
             permutation_epoch = np.random.permutation(X_shuffled_training.shape[0])
             X_epoch_shuffled = X_shuffled_training[permutation_epoch]
             y_epoch_shuffled = y_shuffled_training[permutation_epoch]
@@ -148,7 +149,6 @@ class NeuralNetworkScratch:
 
                 # Update parameters
                 self.update_parameters(grads)
-
             # Calculate and print loss for training and validation sets
             train_output, _ = self.forward_pass(X_shuffled_training)
             train_loss = self.mse(y_shuffled_training, train_output)
