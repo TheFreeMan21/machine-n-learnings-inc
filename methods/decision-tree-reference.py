@@ -47,3 +47,35 @@ scores = cross_val_score(
 )
 
 print("Average CV MSE:", -scores.mean())
+
+path = tree.cost_complexity_pruning_path(X_train, y_train)
+ccp_alphas = path.ccp_alphas
+
+best_mse = float("inf")
+best_alpha = 0
+
+for alpha in ccp_alphas:
+    pruned_tree = DecisionTreeRegressor(
+        max_depth=10,
+        min_samples_split=20,
+        min_samples_leaf=10,
+        ccp_alpha=alpha
+    )
+    pruned_tree.fit(X_train, y_train)
+    preds = pruned_tree.predict(X_val)
+    mse = mean_squared_error(y_val, preds)
+
+    if mse < best_mse:
+        best_mse = mse
+        best_alpha = alpha
+
+print("Best alpha:", best_alpha)
+
+# training the final pruned model
+final_tree = DecisionTreeRegressor(
+    max_depth=10,
+    min_samples_split=20,
+    min_samples_leaf=10,
+    ccp_alpha=best_alpha
+)
+final_tree.fit(X_train, y_train)
