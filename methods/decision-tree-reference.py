@@ -71,7 +71,7 @@ for alpha in ccp_alphas:
 
 print("Best alpha:", best_alpha)
 
-# Train final pruned model
+# training the final pruned model
 final_tree = DecisionTreeRegressor(
     max_depth=10,
     min_samples_split=20,
