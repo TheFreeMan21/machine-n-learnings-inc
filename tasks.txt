@@ -14,6 +14,7 @@ Greg
 )
 
 - exploantion for the backpropagation
+- same scale the risk dist
 
 Bogdan
 - random forest report

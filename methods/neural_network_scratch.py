@@ -1,6 +1,6 @@
 '''Feed-Forward Neural Network regressor - from scratch'''
 #We will use the ReLU as the activation function
-#Preferably 2 hidden layers (selected features (43)-64-32-1)
+#Preferably 2 hidden layers (selected features (16)-64-32-1)
 #Loss function: MSE
 '''Neural Network:
 For method 2 we had to create a neural network from scretch, using the basic libraries: Numpy and Pandas. '''
@@ -24,7 +24,7 @@ class NeuralNetworkScratch:
     def mse(self, y_true, y_pred):
         return np.mean((y_true - y_pred) ** 2)
 
-    def __init__(self, input_dim, hidden1_dim=64, hidden2_dim=32, output_dim=1, learning_rate=0.001,
+    def __init__(self, input_dim=16, hidden1_dim=64, hidden2_dim=32, output_dim=1, learning_rate=0.001,
                   epochs=100, number_of_batches=100, random_state=42, patience=20, learning_shrink=False,
                   min_delta=1e-4, min_learning_rate=1e-5, factor=0.9, window_size=3):
         self.input_dim = input_dim
