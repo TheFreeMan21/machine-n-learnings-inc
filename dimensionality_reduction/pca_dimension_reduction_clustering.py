@@ -93,20 +93,21 @@ plt.close()
 clusters = sorted(df["Cluster"].unique())
 colors = ["blue", "brown", "cyan"]
 
-plt.figure(figsize=(15, 4))
+fig, axes = plt.subplots(1, len(clusters), figsize=(15, 4), sharey=True)
+
 for i, cluster in enumerate(clusters):
-    plt.subplot(1, len(clusters), i + 1)
+    ax = axes[i] if len(clusters) > 1 else axes
     sns.histplot(
         df[df["Cluster"] == cluster]["Risk"],
         bins=30,
         kde=True,
-        color=colors[i]
+        color=colors[i],
+        ax=ax
     )
-    plt.title(f"Cluster {cluster} Risk Distribution")
-    plt.xlabel("Risk_formula")
-    plt.ylabel("Count (log scale)")
-    #plt.yscale("log")
-    plt.grid(True)
+    ax.set_title(f"Cluster {cluster} Risk Distribution")
+    ax.set_xlabel("Risk_formula")
+    ax.set_ylabel("Count (log scale)")
+    ax.grid(True)
 
 plt.tight_layout()
 plt.savefig("./plots/risk_distribution.png", dpi=300, bbox_inches='tight')

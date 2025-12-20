@@ -1,7 +1,4 @@
 '''Feed-Forward Neural Network regressor - from scratch'''
-#We will use the ReLU as the activation function
-#Preferably 2 hidden layers (selected features (16)-64-32-1)
-#Loss function: MSE
 '''Neural Network:
 For method 2 we had to create a neural network from scretch, using the basic libraries: Numpy and Pandas. '''
 
@@ -171,7 +168,7 @@ class NeuralNetworkScratch:
                         self.learning_rate = new_lr
                         lr_counter = 0
 
-            # Early stopping check (training)
+            # Early stopping check
             if val_loss < self.best_validation_loss - 1e-5:
                 self.best_validation_loss = val_loss
                 best_params = self.params.copy()
