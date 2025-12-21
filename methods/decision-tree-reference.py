@@ -2,7 +2,7 @@
 
 import numpy as np
 import pandas as pd
-from filter_data import filtering
+from util.filter_data import filtering
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.metrics import mean_squared_error
