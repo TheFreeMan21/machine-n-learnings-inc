@@ -57,6 +57,18 @@ clusters = kmeans.fit_predict(X_final)
 
 df["Cluster"] = clusters
 
+cluster_stats = (
+    df.groupby("Cluster")["Risk"]
+      .agg(mean="mean", median="median", std="std", count="count")
+      .reset_index()
+      .sort_values("Cluster")
+)
+
+# (optional) nicer display
+cluster_stats[["mean", "median", "std"]] = cluster_stats[["mean", "median", "std"]].round(4)
+
+print(cluster_stats)
+
 plt.figure(figsize=(8, 6))
 plt.scatter(X_pca[:, 0], X_pca[:, 1], c=df["Risk"], cmap="magma", alpha=0.6)
 plt.xlabel("PC1")
