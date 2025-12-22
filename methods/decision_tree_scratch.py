@@ -4,11 +4,11 @@ import numpy as np
 
 class DecisionTreeScratch:
 
-    def __init__(self, max_depth=5, min_samples_split=10, min_samples_leaf=1, max_leaf_nodes=None):
+    def __init__(self, max_depth=8, min_samples_split=100, min_samples_leaf=50, max_leaf_nodes=100):
         self.max_depth = max_depth
         self.min_samples_split = min_samples_split
-        self.min_samples_leaf = min_samples_leaf
-        self.max_leaf_nodes = max_leaf_nodes
+        self.min_samples_leaf = min_samples_leaf 
+        self.max_leaf_nodes = max_leaf_nodes 
         self.tree = None
         self.n_leaves = 0
 
